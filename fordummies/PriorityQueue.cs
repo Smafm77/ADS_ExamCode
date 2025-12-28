@@ -23,7 +23,8 @@ public class MaxMinPriorityQueue<T> where T : IElementWithKey
         _mode = auswahl;
     }
     public T[] Daten => _daten;
-    public int Count => _count;
+    public int Count => _count; //hat mir besser gefallen weil der Konstruktor eine size hat und das ust was anderes
+    public int Size => _count; //Weil so in Aufgabenblatt 10 gefordert. Ich könnte auch Count zu Size umbenennen aber eh... vielleicht später
     public MaxMin Mode => _mode;
 
     private void Swap(int i, int j)
@@ -37,19 +38,16 @@ public class MaxMinPriorityQueue<T> where T : IElementWithKey
         return (_mode == MaxMin.Max && Greater(_daten[i], _daten[j])) || (_mode == MaxMin.Min && Less(_daten[i], _daten[j]));
         //Je nachdem ob mode Max/Min wird geguckt ob es Greater/Less ist und true/false zurück geworfen
     }
-    private int Left(int i) => i= 2 * i + 1; //eigene Methode 
-  
-    private int Right(int i) => i= 2 * i + 2; //eigene Methode 
     public bool Less(T object1, T object2) => object1.ChangeableKey < object2.ChangeableKey;
 
     public bool Greater(T object1, T object2) => object1.ChangeableKey > object2.ChangeableKey;
 
     public void Heapify(int index)
     {
-        while (true) //vermeiden von while true
+        while (true)
         {
-            int left = Left(index); 
-            int right = Right(index);
+            int left = 2 * index + 1;
+            int right = 2 * index + 2;
             int best = index; //"Bester" Knoten -> Größter bei Max, Kleinster bei Min
 
             if (left < _count) //Wenn linker Knoten existiert, prüfe ob "besser" als best

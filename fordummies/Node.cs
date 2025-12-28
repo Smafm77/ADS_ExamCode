@@ -24,6 +24,7 @@ public class Node : IElementWithKey
     }
     public override string ToString() => _id.ToString();
     public int Key => _id;
+    public int ID => _id; //ist zwar das selbe wie Key aber in Aufgabenblatt 10 so gefordert. Also yeeet
     public int ChangeableKey
     {
         get => _distance;
@@ -50,11 +51,11 @@ public class Node : IElementWithKey
     {
         Adjacent.Delete(neighbor.Key);
     }
-    public void IterateThroughNeighbors(Action<Node> action)
+    private void IterateThroughNeighbors(Action<Node> action)
     {
         Adjacent.InOrder(edge =>
     {
-        action(edge.Neighbor);
+        action(edge.Node);
     });
     }
     public int GetWeight(Node neighbor) => Adjacent.Find(neighbor.Key).Weight;

@@ -5,23 +5,27 @@ public interface IBinaryNode<T> where T : IElementWithKey
 }
 public class BinarySearchTree<T> where T : IElementWithKey
 {
-    public IBinaryNode<T> root;
+    private IBinaryNode<T> _root = new EmptyNode<T>(); //privater setter weil Aufgabenblatt 10 sagt kein public setter aber ohne setter geht nicht und direkt new EmptyNode implementiert wg non nullable
+    public IBinaryNode<T> Root{
+      get => _root; 
+      private set => _root = value;
+    }
     public BinarySearchTree(T element)
     {
-        root = new BinaryNode<T>(element);
+        Root = new BinaryNode<T>(element);
     }
     public BinarySearchTree()
     {
-        root = new EmptyNode<T>();
+        Root = new EmptyNode<T>();
     }
     public void Insert(T element)
     {
-        if (root.IsEmptyNode())   // Wenn der Baum leer ist -> einfach Root setzen
+        if (Root.IsEmptyNode())   // Wenn der Baum leer ist -> einfach Root setzen
         {
-            root = new BinaryNode<T>(element);
+            Root = new BinaryNode<T>(element);
             return;
         }
-        var node = (BinaryNode<T>)root;
+        var node = (BinaryNode<T>)Root;
 
         while (true) // Sonst runterlaufen bis ich eine passende freie Stelle finde
         {
@@ -59,9 +63,9 @@ public class BinarySearchTree<T> where T : IElementWithKey
         DisplayNode(b.Left, indent + (isLeft ? "    " : "│   "), true);
         DisplayNode(b.Right, indent + (isLeft ? "    " : "│   "), false);
     }
-    public void InOrder(Action<T> f) => InOrderHelper(f, root);
-    public void PreOrder(Action<T> f) => PreOrderHelper(f, root);
-    public void PostOrder(Action<T> f) => PostOrderHelper(f, root);
+    public void InOrder(Action<T> f) => InOrderHelper(f, Root);
+    public void PreOrder(Action<T> f) => PreOrderHelper(f, Root);
+    public void PostOrder(Action<T> f) => PostOrderHelper(f, Root);
     private void InOrderHelper(Action<T> f, IBinaryNode<T> node)
     {
         // InOrder = links - node - rechts
@@ -98,7 +102,7 @@ public class BinarySearchTree<T> where T : IElementWithKey
         InOrder(t => sb.Append(t.ToString()).Append(" "));
         return sb.ToString().TrimEnd(' ');
     }
-    public T TreeMinimum() => MinimumNode(root).Element;
+    public T TreeMinimum() => MinimumNode(Root).Element;
     private BinaryNode<T> MinimumNode(IBinaryNode<T> node)
     {
         if (node is BinaryNode<T> n)  // n ist ein echter Knoten
@@ -113,7 +117,7 @@ public class BinarySearchTree<T> where T : IElementWithKey
     }
     private BinaryNode<T> FindNode(int key)
     {
-        IBinaryNode<T> current = root;
+        IBinaryNode<T> current = Root;
 
         while (current is BinaryNode<T> node)
         {
@@ -163,7 +167,7 @@ public class BinarySearchTree<T> where T : IElementWithKey
         {
             if (parent is EmptyNode<T>)
             {
-                root = new EmptyNode<T>(); // Wenn der Node Root war -> Baum wird komplett leer
+                Root = new EmptyNode<T>(); // Wenn der Node Root war -> Baum wird komplett leer
             }
             else if (parent is BinaryNode<T> p) // Sonst -> Parent bekommt einen neuen EmptyLeaf als Kind
             {
@@ -189,7 +193,7 @@ public class BinarySearchTree<T> where T : IElementWithKey
         if (parent is EmptyNode<T>) // Wenn Node die Root war -> Child wird neue Root
         {
             realChild.Parent = new EmptyNode<T>();
-            root = realChild;
+            Root = realChild;
         }
         else if (parent is BinaryNode<T> p)
         {

@@ -82,7 +82,7 @@ namespace Fordummies
             DistanzDruck(g, "DFS");
 
             ////Dijkstra Test
-            g.Dijkstra(g.Nodes[a].Key);
+            g.Dijkstra(a);
             Console.WriteLine("Dijkstra Pfad " +a+ " -> " +b+ ":");
             g.PrintPath(g.Nodes[a], g.Nodes[b]);
             Console.WriteLine("Distanz " +b+  " = " + g.Nodes[b].Distance);

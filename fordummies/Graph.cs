@@ -35,15 +35,16 @@ public class Graph
         while (q.Count > 0)
         {
             Node n = q.Dequeue();
-            n.IterateThroughNeighbors(node =>
+            n.Adjacent.InOrder(edge =>
             {
-                if (node.Color == Color.White)
-                {
-                    node.Color = Color.Grey;
-                    node.Distance = n.Distance + 1;
-                    node.Parent = n;
-                    q.Enqueue(node);
-                }
+              var node = edge.Node;
+              if (node.Color == Color.White)
+              {
+                  node.Color = Color.Grey;
+                  node.Distance = n.Distance + 1;
+                  node.Parent = n;
+                  q.Enqueue(node);
+              }
             });
             n.Color = Color.Black;
         }
@@ -79,13 +80,14 @@ public class Graph
     {
         n.Distance = distance;
         n.Color = Color.Grey;
-        n.IterateThroughNeighbors(nei =>
+        n.Adjacent.InOrder(edge =>
         {
-            if (nei.Color == Color.White)
-            {
-                nei.Parent = n;
-                DFSVisit(nei, distance + 1);
-            }
+        var nei = edge.Node;
+        if (nei.Color == Color.White)
+         {
+             nei.Parent = n;
+             DFSVisit(nei, distance + 1);
+         }
         });
         n.Color = Color.Black;
     }
@@ -109,15 +111,16 @@ public class Graph
         while (q.Count > 0) //gab kein IsEmpty aber Count >0 sollte das selbe tun
         {
             Node x = q.ExtractFirst();
-            if (x.Distance == int.MaxValue) //wenn kleinstes schon unendlich, dann ist rest unerreichbar
+            if (x.ChangeableKey == int.MaxValue) //wenn kleinstes schon unendlich, dann ist rest unerreichbar
             {
                 break;
             }
-            x.IterateThroughNeighbors(y =>
+            x.Adjacent.InOrder(edge =>
             {
+                var y = edge.Node;
                 int w = x.GetWeight(y); 
-                int newDist = x.Distance + w;
-                if (newDist < y.Distance)
+                int newDist = x.ChangeableKey + w;
+                if (newDist < y.ChangeableKey)
                 {
                     y.Parent = x;
                     y.ChangeableKey = newDist;

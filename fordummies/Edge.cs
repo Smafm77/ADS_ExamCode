@@ -7,7 +7,10 @@ public class Edge : IElementWithKey
         _node = neighbor;
         Weight = weight;
     }
-    public Node Neighbor => _node;
+    public Node Node{
+    get => _node;
+    set => _node = value;
+    } 
     public int Weight
     {
         get => _weight;
