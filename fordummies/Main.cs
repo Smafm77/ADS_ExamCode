@@ -70,19 +70,19 @@ namespace Fordummies
             int b = 5;
 
             //BFS Test
-            g.BFS(g.Nodes[a]);
+            g.BFS(g.Nodes[a].Key);
             Console.WriteLine("BFS Pfad "+a+ " -> " +b+":");
             g.PrintPath(g.Nodes[a], g.Nodes[b]);
             Console.WriteLine("Distanz " +b+ "  = " + g.Nodes[b].Distance);
             DistanzDruck(g, "BFS");
 
             //DFS Test
-            g.DFS();
+            g.DFS(a);
             Console.WriteLine("DFS fertig. Parent von Node " +b+ " : " + (g.Nodes[b].Parent?.Key.ToString() ?? "null"));
             DistanzDruck(g, "DFS");
 
-            //Dijkstra Test
-            g.Dijkstra(g.Nodes[a]);
+            ////Dijkstra Test
+            g.Dijkstra(g.Nodes[a].Key);
             Console.WriteLine("Dijkstra Pfad " +a+ " -> " +b+ ":");
             g.PrintPath(g.Nodes[a], g.Nodes[b]);
             Console.WriteLine("Distanz " +b+  " = " + g.Nodes[b].Distance);

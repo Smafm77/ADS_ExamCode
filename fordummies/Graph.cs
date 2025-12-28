@@ -16,8 +16,12 @@ public class Graph
             _nodes[i] = new Node(i);
         }
     }
-    public void BFS(Node s)
+    private Node FindNodeByKey(int id){
+      return Nodes[id];
+    } 
+    public void BFS(int id)
     {
+        Node s = FindNodeByKey(id);
         foreach (Node n in Nodes)
         {
             n.Color = Color.White;
@@ -60,40 +64,35 @@ public class Graph
             Console.WriteLine(v);
         }
     }
-    public void DFS()
+    public void DFS(int id)
     {
-        foreach (Node n in Nodes)
+      foreach (Node n in Nodes)
         {
             n.Color = Color.White;
             n.Distance = -1;
             n.Parent = null;
         }
-        foreach (Node n in Nodes)
-        {
-            if (n.Color == Color.White)
-            {
-                DFSVisit(n, 0);
-            }
-        }
+      Node start = FindNodeByKey(id);
+      DFSVisit(start,0);
     }
     private void DFSVisit(Node n, int distance)
     {
         n.Distance = distance;
         n.Color = Color.Grey;
-        n.IterateThroughNeighbors(node =>
+        n.IterateThroughNeighbors(nei =>
         {
-            if (node.Color == Color.White)
+            if (nei.Color == Color.White)
             {
-                node.Parent = n;
-                DFSVisit(node, distance + 1);
+                nei.Parent = n;
+                DFSVisit(nei, distance + 1);
             }
         });
         n.Color = Color.Black;
     }
-    public void Dijkstra(Node s)
+    public void Dijkstra(int id)
     {
         MinPriorityQueue<Node> q = new(Nodes.Length);
-
+        Node s = FindNodeByKey(id);
         foreach (Node v in Nodes)
         {
             v.Parent = null;

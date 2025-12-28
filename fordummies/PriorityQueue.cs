@@ -37,16 +37,19 @@ public class MaxMinPriorityQueue<T> where T : IElementWithKey
         return (_mode == MaxMin.Max && Greater(_daten[i], _daten[j])) || (_mode == MaxMin.Min && Less(_daten[i], _daten[j]));
         //Je nachdem ob mode Max/Min wird geguckt ob es Greater/Less ist und true/false zurück geworfen
     }
+    private int Left(int i) => i= 2 * i + 1; //eigene Methode 
+  
+    private int Right(int i) => i= 2 * i + 2; //eigene Methode 
     public bool Less(T object1, T object2) => object1.ChangeableKey < object2.ChangeableKey;
 
     public bool Greater(T object1, T object2) => object1.ChangeableKey > object2.ChangeableKey;
 
     public void Heapify(int index)
     {
-        while (true)
+        while (true) //vermeiden von while true
         {
-            int left = 2 * index + 1;
-            int right = 2 * index + 2;
+            int left = Left(index); 
+            int right = Right(index);
             int best = index; //"Bester" Knoten -> Größter bei Max, Kleinster bei Min
 
             if (left < _count) //Wenn linker Knoten existiert, prüfe ob "besser" als best

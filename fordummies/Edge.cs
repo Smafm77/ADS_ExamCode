@@ -22,5 +22,5 @@ public class Edge : IElementWithKey
     public Action ChangingAction
     {
         set => _node.ChangingAction = value;
-    }
+    }  
 }

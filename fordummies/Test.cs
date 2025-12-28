@@ -12,7 +12,7 @@ public class Test : IElementWithKey
             _changingAction();
         }
     }
-    public Action ChangingAction
+    public Action ChangingAction  
     {
         set => _changingAction = value;
     }
@@ -20,6 +20,6 @@ public class Test : IElementWithKey
     {
         Key = key;
         _changeableKey = changeableKey;
-        _changingAction = () => { }; // Funktion die nichts tut dann muss man kein nullable machen
+        _changingAction = () => {}; // Funktion die nichts tut dann muss man kein nullable machen
     }
 }
