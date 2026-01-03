@@ -119,7 +119,7 @@ public class Graph
             x.Adjacent.InOrder(edge =>
             {
                 var y = edge.Node;
-                int w = x.GetWeight(y);
+                int w = edge.Weight;
                 int newDist = x.ChangeableKey + w;
                 if (newDist < y.ChangeableKey)
                 {

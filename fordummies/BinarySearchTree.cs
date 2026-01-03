@@ -216,7 +216,7 @@ public class EmptyLeaf<T> : IBinaryNode<T> where T : IElementWithKey
     {
         _parent = parent;
     }
-    public bool IsEmptyNode() => false;
+    public bool IsEmptyNode() => true;
 }
 public class BinaryNode<T> : IBinaryNode<T> where T : IElementWithKey
 {
