@@ -1,7 +1,7 @@
 public class Test : IElementWithKey
 {
     private int _changeableKey;
-    private Action _changingAction;
+    private Action _changingAction = () => { };// Funktion die nichts tut dann muss man kein nullable machen
     public int Key { get; }
     public int ChangeableKey
     {
@@ -12,14 +12,13 @@ public class Test : IElementWithKey
             _changingAction();
         }
     }
-    public Action ChangingAction  
+    public Action ChangingAction
     {
         set => _changingAction = value;
     }
     public Test(int key, int changeableKey)
     {
         Key = key;
-        _changeableKey = changeableKey;
-        _changingAction = () => {}; // Funktion die nichts tut dann muss man kein nullable machen
+        ChangeableKey = changeableKey;
     }
 }

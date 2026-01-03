@@ -7,23 +7,24 @@ public class Edge : IElementWithKey
         _node = neighbor;
         Weight = weight;
     }
-    public Node Node{
-    get => _node;
-    set => _node = value;
-    } 
+    public Node Node
+    {
+        get => _node;
+        set => _node = value;
+    }
     public int Weight
     {
         get => _weight;
         set => _weight = value;
     }
-    public int Key => _node.Key;
+    public int Key => Node.Key;
     public int ChangeableKey
     {
-        get => _node.ChangeableKey;
-        set => _node.ChangeableKey = value;
+        get => Node.ChangeableKey;
+        set => Node.ChangeableKey = value;
     }
     public Action ChangingAction
     {
-        set => _node.ChangingAction = value;
-    }  
+        set => Node.ChangingAction = value;
+    }
 }

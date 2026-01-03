@@ -6,8 +6,8 @@ public class Node : IElementWithKey
     private int _distance;
     private BinarySearchTree<Edge> _adjacent;
     private Action _changingAction;
-    public int Distance { get => _distance; set => _distance = value; }
-    public Node? Parent //muss noch abgefangen werden
+    public int Distance { get => _distance; set => ChangeableKey = value; }
+    public Node? Parent //muss noch abgefangen werden oder so?
     {
         get => _parent;
         set => _parent = value;

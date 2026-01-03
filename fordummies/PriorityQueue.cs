@@ -13,29 +13,28 @@ public interface IElementWithKey
 public class MaxMinPriorityQueue<T> where T : IElementWithKey
 {
     private T[] _daten;
-    private int _count; //Anzahl der Elemente im Heap
+    private int _size; //Anzahl der Elemente im Heap
     private MaxMin _mode;
- 
+
     public MaxMinPriorityQueue(int size, MaxMin auswahl)
     {
         _daten = new T[size];
-        _count = 0;
+        _size
+ = 0;
         _mode = auswahl;
     }
     public T[] Daten => _daten;
-    public int Count => _count; //hat mir besser gefallen weil der Konstruktor eine size hat und das ust was anderes
-    public int Size => _count; //Weil so in Aufgabenblatt 10 gefordert. Ich könnte auch Count zu Size umbenennen aber eh... vielleicht später
+    public int Size => _size; //Weil so in Aufgabenblatt 10 gefordert
     public MaxMin Mode => _mode;
-
     private void Swap(int i, int j)
     {
-        (_daten[i], _daten[j]) = (_daten[j], _daten[i]); //Tatsächlicher Tausch
-        _daten[i].ChangingAction = CreateChangingKeyAction(i); //einmal bescheid sagen, dass ein tausch statt fand
-        _daten[j].ChangingAction = CreateChangingKeyAction(j);
+        (Daten[i], Daten[j]) = (Daten[j], Daten[i]); //Tatsächlicher Tausch
+        Daten[i].ChangingAction = CreateChangingKeyAction(i); //einmal bescheid sagen, dass ein tausch statt fand
+        Daten[j].ChangingAction = CreateChangingKeyAction(j);
     }
     private bool Better(int i, int j)
     {
-        return (_mode == MaxMin.Max && Greater(_daten[i], _daten[j])) || (_mode == MaxMin.Min && Less(_daten[i], _daten[j]));
+        return (Mode == MaxMin.Max && Greater(Daten[i], Daten[j])) || (Mode == MaxMin.Min && Less(Daten[i], Daten[j]));
         //Je nachdem ob mode Max/Min wird geguckt ob es Greater/Less ist und true/false zurück geworfen
     }
     public bool Less(T object1, T object2) => object1.ChangeableKey < object2.ChangeableKey;
@@ -50,7 +49,8 @@ public class MaxMinPriorityQueue<T> where T : IElementWithKey
             int right = 2 * index + 2;
             int best = index; //"Bester" Knoten -> Größter bei Max, Kleinster bei Min
 
-            if (left < _count) //Wenn linker Knoten existiert, prüfe ob "besser" als best
+            if (left < Size
+    ) //Wenn linker Knoten existiert, prüfe ob "besser" als best
             {
                 if (Better(left, best))
                 {
@@ -58,7 +58,8 @@ public class MaxMinPriorityQueue<T> where T : IElementWithKey
                 }
             }
 
-            if (right < _count)
+            if (right < Size
+    )
             {
                 if (Better(right, best))
                 {
@@ -75,7 +76,7 @@ public class MaxMinPriorityQueue<T> where T : IElementWithKey
     }
     public T First()
     {
-        if (_count == 0)
+        if (Size == 0)
         {
             throw new InvalidOperationException("PriorityQueue ist leer");
         }
@@ -83,60 +84,58 @@ public class MaxMinPriorityQueue<T> where T : IElementWithKey
     }
     public T ExtractFirst()
     {
-        if (_count == 0)
+        if (Size == 0)
         {
             throw new InvalidOperationException("PriorityQueue ist leer");
         }
-        T result = _daten[0];
-        _count--; //Letzes Element logisch entfernen (Größe verringern)
-
-        if (_count > 0)
+        T result = Daten[0];
+        _size--; //Letzes Element logisch entfernen (Größe verringern) Size hat halt kein Setter also direkt aufs Feld
+        if (Size > 0)
         {
-            _daten[0] = _daten[_count]; //root aktualisieren
-            _daten[0].ChangingAction = CreateChangingKeyAction(0); //Auch hier wird pos geändert
+            Daten[0] = Daten[Size]; //root aktualisieren
+            Daten[0].ChangingAction = CreateChangingKeyAction(0); //Auch hier wird pos geändert
             Heapify(0); //sortieren
         }
         return result;
     }
     public void Insert(T element)
     {
-        if (_count == _daten.Length)
+        if (Size == Daten.Length)
         {
             throw new InvalidOperationException("PriorityQueue ist voll.");
         }
-        int i = _count;
-        _daten[i] = element;
-        _count++;
-
-        _daten[i].ChangingAction = CreateChangingKeyAction(i);
-
+        int i = Size;
+        Daten[i] = element;
+        _size++;
+        Daten[i].ChangingAction = CreateChangingKeyAction(i);
         IncreaseKey(i);
     }
-    private void IncreaseKey(int pos)
+    private void IncreaseKey(int position)
     {
-        while (pos > 0) //Bubble up
+        while (position > 0) //Bubble up
         {
-            int parent = (pos - 1) / 2;
-
-            if (Better(pos, parent))
+            int parent = (position - 1) / 2;
+            if (Better(position, parent))
             {
-                Swap(pos, parent);
-                pos = parent;
+                Swap(position, parent);
+                position = parent;
             }
             else
+            {
                 break;
+            }
         }
     }
-    private Action CreateChangingKeyAction(int pos)
+    private Action CreateChangingKeyAction(int position)
     {
-        return () => IncreaseKey(pos);
+        return () => IncreaseKey(position);
     }
     override public string ToString()
     {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < _count; i++)
+        for (int i = 0; i < Size; i++)
         {
-            sb.Append(_daten[i].ChangeableKey).Append(" ");
+            sb.Append(Daten[i].ChangeableKey).Append(" ");
         }
         return sb.ToString().TrimEnd(' ');
     }

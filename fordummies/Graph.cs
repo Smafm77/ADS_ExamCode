@@ -16,9 +16,10 @@ public class Graph
             _nodes[i] = new Node(i);
         }
     }
-    private Node FindNodeByKey(int id){
-      return Nodes[id];
-    } 
+    private Node FindNodeByKey(int id)
+    {
+        return Nodes[id];
+    }
     public void BFS(int id)
     {
         Node s = FindNodeByKey(id);
@@ -37,14 +38,14 @@ public class Graph
             Node n = q.Dequeue();
             n.Adjacent.InOrder(edge =>
             {
-              var node = edge.Node;
-              if (node.Color == Color.White)
-              {
-                  node.Color = Color.Grey;
-                  node.Distance = n.Distance + 1;
-                  node.Parent = n;
-                  q.Enqueue(node);
-              }
+                var node = edge.Node;
+                if (node.Color == Color.White)
+                {
+                    node.Color = Color.Grey;
+                    node.Distance = n.Distance + 1;
+                    node.Parent = n;
+                    q.Enqueue(node);
+                }
             });
             n.Color = Color.Black;
         }
@@ -67,14 +68,14 @@ public class Graph
     }
     public void DFS(int id)
     {
-      foreach (Node n in Nodes)
+        foreach (Node n in Nodes)
         {
             n.Color = Color.White;
             n.Distance = -1;
             n.Parent = null;
         }
-      Node start = FindNodeByKey(id);
-      DFSVisit(start,0);
+        Node start = FindNodeByKey(id);
+        DFSVisit(start, 0);
     }
     private void DFSVisit(Node n, int distance)
     {
@@ -82,12 +83,12 @@ public class Graph
         n.Color = Color.Grey;
         n.Adjacent.InOrder(edge =>
         {
-        var nei = edge.Node;
-        if (nei.Color == Color.White)
-         {
-             nei.Parent = n;
-             DFSVisit(nei, distance + 1);
-         }
+            var nei = edge.Node;
+            if (nei.Color == Color.White)
+            {
+                nei.Parent = n;
+                DFSVisit(nei, distance + 1);
+            }
         });
         n.Color = Color.Black;
     }
@@ -108,7 +109,7 @@ public class Graph
             }
             q.Insert(v);
         }
-        while (q.Count > 0) //gab kein IsEmpty aber Count >0 sollte das selbe tun
+        while (q.Size > 0) //gab kein IsEmpty aber Size >0 sollte das selbe tun
         {
             Node x = q.ExtractFirst();
             if (x.ChangeableKey == int.MaxValue) //wenn kleinstes schon unendlich, dann ist rest unerreichbar
@@ -118,7 +119,7 @@ public class Graph
             x.Adjacent.InOrder(edge =>
             {
                 var y = edge.Node;
-                int w = x.GetWeight(y); 
+                int w = x.GetWeight(y);
                 int newDist = x.ChangeableKey + w;
                 if (newDist < y.ChangeableKey)
                 {

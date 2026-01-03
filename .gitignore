@@ -1,0 +1,11 @@
+# Build
+bin/
+obj/
+
+# VS / Rider / IDE-Zeug
+.vs/
+*.user
+*.suo
+
+# Sonstiger Kram
+*.log

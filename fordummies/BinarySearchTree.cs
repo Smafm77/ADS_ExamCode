@@ -6,9 +6,10 @@ public interface IBinaryNode<T> where T : IElementWithKey
 public class BinarySearchTree<T> where T : IElementWithKey
 {
     private IBinaryNode<T> _root = new EmptyNode<T>(); //privater setter weil Aufgabenblatt 10 sagt kein public setter aber ohne setter geht nicht und direkt new EmptyNode implementiert wg non nullable
-    public IBinaryNode<T> Root{
-      get => _root; 
-      private set => _root = value;
+    public IBinaryNode<T> Root
+    {
+        get => _root;
+        private set => _root = value;
     }
     public BinarySearchTree(T element)
     {
@@ -25,9 +26,8 @@ public class BinarySearchTree<T> where T : IElementWithKey
             Root = new BinaryNode<T>(element);
             return;
         }
-        var node = (BinaryNode<T>)Root;
-
-        while (true) // Sonst runterlaufen bis ich eine passende freie Stelle finde
+        IBinaryNode<T> current = Root;
+        while (current is BinaryNode<T> node) // Sonst runterlaufen bis ich eine passende freie Stelle finde
         {
             if (element.Key == node.Element.Key)  // Wenn Key schon existiert -> überschreiben
             {
@@ -41,7 +41,7 @@ public class BinarySearchTree<T> where T : IElementWithKey
                     node.Left = new BinaryNode<T>(element, node);
                     return;
                 }
-                node = (BinaryNode<T>)node.Left;
+                current = (BinaryNode<T>)node.Left;
             }
             else
             {
@@ -50,18 +50,9 @@ public class BinarySearchTree<T> where T : IElementWithKey
                     node.Right = new BinaryNode<T>(element, node);
                     return;
                 }
-                node = (BinaryNode<T>)node.Right;
+                current = (BinaryNode<T>)node.Right;
             }
         }
-    }
-    public void DisplayNode(IBinaryNode<T> node, string indent = "", bool isLeft = true) //geklauter Code abgeändert mit kleiner Sicherheit
-    {
-        if (node is not BinaryNode<T> b) return;
-
-        Console.WriteLine(indent + (isLeft ? "└── " : "┌── ") + b.Element.ToString());
-
-        DisplayNode(b.Left, indent + (isLeft ? "    " : "│   "), true);
-        DisplayNode(b.Right, indent + (isLeft ? "    " : "│   "), false);
     }
     public void InOrder(Action<T> f) => InOrderHelper(f, Root);
     public void PreOrder(Action<T> f) => PreOrderHelper(f, Root);
@@ -102,18 +93,15 @@ public class BinarySearchTree<T> where T : IElementWithKey
         InOrder(t => sb.Append(t.ToString()).Append(" "));
         return sb.ToString().TrimEnd(' ');
     }
-    public T TreeMinimum() => MinimumNode(Root).Element;
-    private BinaryNode<T> MinimumNode(IBinaryNode<T> node)
+    public T TreeMinimum() => MinimumNode().Element;
+    private BinaryNode<T> MinimumNode()
     {
-        if (node is BinaryNode<T> n)  // n ist ein echter Knoten
+        var node = (BinaryNode<T>)Root;
+        while (node.Left is BinaryNode<T> next)
         {
-            while (n.Left is BinaryNode<T> next)
-            {
-                n = next;
-            }
-            return n;
+            node = next;
         }
-        else throw new Exception("Oops");
+        return node;
     }
     private BinaryNode<T> FindNode(int key)
     {
@@ -137,7 +125,6 @@ public class BinarySearchTree<T> where T : IElementWithKey
         throw new Exception("Key existiert nicht im Baum.");
     }
     public T Find(int key) => FindNode(key).Element;
-
     public T Delete(int key)
     {
         var node = FindNode(key);
@@ -157,7 +144,11 @@ public class BinarySearchTree<T> where T : IElementWithKey
         //Fall 3: zwei Kinder
         if (hasLeftChild && hasRightChild)
         {
-            BinaryNode<T> successor = MinimumNode(right);
+            BinaryNode<T> successor = (BinaryNode<T>)node.Right;
+            while (successor.Left is BinaryNode<T> next)
+            {
+                successor = next;
+            }
             node.Element = successor.Element;
             DeleteNode(successor);             // Successor löschen (der ist garantiert Fall 1 oder 2)
             return;
