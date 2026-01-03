@@ -19,8 +19,7 @@ public class MaxMinPriorityQueue<T> where T : IElementWithKey
     public MaxMinPriorityQueue(int size, MaxMin auswahl)
     {
         _daten = new T[size];
-        _size
- = 0;
+        _size = 0;
         _mode = auswahl;
     }
     public T[] Daten => _daten;
@@ -43,14 +42,12 @@ public class MaxMinPriorityQueue<T> where T : IElementWithKey
 
     public void Heapify(int index)
     {
-        while (true)
+        while (index < Size)
         {
+            int best = index; //"Bester" Knoten -> Größter bei Max, Kleinster bei Min
             int left = 2 * index + 1;
             int right = 2 * index + 2;
-            int best = index; //"Bester" Knoten -> Größter bei Max, Kleinster bei Min
-
-            if (left < Size
-    ) //Wenn linker Knoten existiert, prüfe ob "besser" als best
+            if (left < Size) //Wenn linker Knoten existiert, prüfe ob "besser" als best
             {
                 if (Better(left, best))
                 {
@@ -58,8 +55,7 @@ public class MaxMinPriorityQueue<T> where T : IElementWithKey
                 }
             }
 
-            if (right < Size
-    )
+            if (right < Size)
             {
                 if (Better(right, best))
                 {
