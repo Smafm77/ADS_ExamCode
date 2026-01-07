@@ -51,7 +51,7 @@ public class Node : IElementWithKey
     {
         Adjacent.Delete(neighbor.Key);
     }
-    private void IterateThroughNeighbors(Action<Node> action)
+    public void IterateThroughNeighbors(Action<Node> action)
     {
         Adjacent.InOrder(edge =>
     {

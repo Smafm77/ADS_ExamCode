@@ -36,9 +36,8 @@ public class Graph
         while (q.Count > 0)
         {
             Node n = q.Dequeue();
-            n.Adjacent.InOrder(edge =>
+            n.IterateThroughNeighbors(node =>
             {
-                var node = edge.Node;
                 if (node.Color == Color.White)
                 {
                     node.Color = Color.Grey;
@@ -81,9 +80,8 @@ public class Graph
     {
         n.Distance = distance;
         n.Color = Color.Grey;
-        n.Adjacent.InOrder(edge =>
+        n.IterateThroughNeighbors(nei =>
         {
-            var nei = edge.Node;
             if (nei.Color == Color.White)
             {
                 nei.Parent = n;
@@ -116,9 +114,8 @@ public class Graph
             {
                 break;
             }
-            x.Adjacent.InOrder(edge =>
+            x.IterateThroughNeighbors(y =>
             {
-                var y = edge.Node;
                 int w = x.GetWeight(y);
                 int newDist = x.ChangeableKey + w;
                 if (newDist < y.ChangeableKey)
